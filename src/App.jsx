@@ -1,35 +1,19 @@
-import React, { useEffect, useState, useRef } from "react";
+import { useEffect, useState, useRef } from "react";
 import "./App.css";
 import styles from "./app.module.css";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchData } from "./services/data/actions";
+import { DogItem } from "./components/dog-item/dog-item";
 
 function App() {
-  const [photos, setPhotos] = useState([]);
-  const [fetching, setFetching] = useState(false);
-  const [totalCount, setTotalCount] = useState(172);
   const [sortField, setSortField] = useState("");
   const currentPage = useRef(1);
   const containerRef = useRef(null);
-  let key =
-    "live_fvCDb6fEUDpokIzXlLOxGpYDbyM2besMsOemYnu30MUM5wSeLXDZbi39vx3ThwBE";
-  async function request(url) {
-    try {
-      let response = await fetch(url, {
-        method: "GET",
-        headers: { "x-api-key": key },
-      });
-      if (response.ok) {
-        const totalCountHeader = response.headers.get("x-total-count");
-        if (totalCountHeader) setTotalCount(Number(totalCountHeader));
-
-        const json = await response.json();
-        return json;
-      } else {
-        console.error("HTTP Error: " + response.status);
-      }
-    } catch (error) {
-      console.error("Network error:", error);
-    }
-  }
+  const dispatch = useDispatch();
+  const dogs = useSelector((state) => state.data.dogs);
+  const { dataRequest, dataFailed, totalCount } = useSelector(
+    (state) => state.data
+  );
 
   const sortData = (data) => {
     const uniqueData = data.filter(
@@ -54,40 +38,23 @@ function App() {
     if (
       container.scrollHeight - (container.scrollTop + window.innerHeight) <
         100 &&
-      photos.length < totalCount &&
-      !fetching
+      dogs.length < totalCount &&
+      !dataRequest
     ) {
-      setFetching(true);
+      fetchDogs();
     }
   };
 
-  const fetchData = () => {
-    request(
-      `https://api.thedogapi.com/v1/images/search?has_breeds=1&limit=10&_page=${currentPage.current}`
-    ).then((result) => {
-      if (result) {
-        const sortedData = sortData([...photos, ...result]);
-        setPhotos(sortedData);
-        currentPage.current += 1;
-        setFetching(false);
-      }
-    });
+  const fetchDogs = () => {
+    dispatch(fetchData(currentPage.current));
+    currentPage.current += 1;
   };
+
   useEffect(() => {
-    if (photos.length === 0) {
-      setFetching(true);
+    if (dogs.length === 0) {
+      fetchDogs();
     }
   }, []);
-
-  useEffect(() => {
-    if (fetching) {
-      fetchData();
-    }
-  }, [fetching]);
-
-  useEffect(() => {
-    setPhotos((prevData) => sortData(prevData));
-  }, [sortField]);
 
   useEffect(() => {
     const container = containerRef.current;
@@ -96,36 +63,31 @@ function App() {
     return () => {
       if (container) container.removeEventListener("scroll", scrollHandler);
     };
-  }, [photos]);
+  }, [dataRequest]);
+
+  const sortedDogs = sortData(dogs);
 
   return (
     <div className={styles.App}>
       <header className={styles.container}>
-        <h1>Выбери себе собаку: </h1>
+        <h3>Выбери себе собаку</h3>
+        <span className={styles.text}>Сортировка: </span>
         <select onChange={(e) => setSortField(e.target.value)}>
-          <option value="name"> </option>
-          <option value="name">Сортировка по алфавиту</option>
-          <option value="weight">Сортировка по весу</option>
+          <option value="none"> </option>
+          <option value="name">По алфавиту</option>
+          <option value="weight">По весу</option>
         </select>
-        {photos && (
+        {sortedDogs && (
           <div ref={containerRef} id="container" className={styles.data}>
-            {photos.map((currentDog) => (
-              <div key={currentDog.id} className={styles.dog_item}>
-                <p className={styles.text}>{currentDog.breeds[0]?.name}</p>
-                <img
-                  className={styles.photo}
-                  src={currentDog.url}
-                  alt={currentDog.title}
-                />
-                <p className={styles.text}>
-                  {currentDog.breeds[0]?.temperament}
-                </p>
-                <p className={styles.text}>
-                  Вес: {currentDog.breeds[0]?.weight.metric} кг
-                </p>
-              </div>
+            {sortedDogs.map((currentDog) => (
+              <DogItem key={currentDog.id}dog={currentDog}/>
             ))}
-            {fetching && <div className={styles.loader}>Loading...</div>}
+            {dataRequest && <div className={styles.loader}>Loading...</div>}
+            {dataFailed && (
+              <div className={styles.loader}>
+                Ошибка загрузки данных, попробуйте позже
+              </div>
+            )}
           </div>
         )}
       </header>

@@ -44,19 +44,8 @@
   padding: 10px;
 }
 
-.photo {
-  width: 200px;
-  height: 150px;
-  object-fit: contain;
-}
 
-.dog_item {
-  border-radius: 15px;
-  width: 50%;
-  padding: 10px;
-  background-color: dimgrey;
-}
 
-.text{
-  font-size: 0.7em;
+h3 {
+  line-height: 1px;
 }
