@@ -1,9 +1,8 @@
 import { useEffect, useState, useRef } from "react";
-import "./App.css";
 import styles from "./app.module.css";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchData } from "./services/data/actions";
-import { DogItem } from "./components/dog-item/dog-item";
+import { fetchData } from "../../services/data/actions";
+import { DogItem } from "../dog-item/dog-item";
 
 function App() {
   const [sortField, setSortField] = useState("");
@@ -80,7 +79,7 @@ function App() {
         {sortedDogs && (
           <div ref={containerRef} id="container" className={styles.data}>
             {sortedDogs.map((currentDog) => (
-              <DogItem key={currentDog.id}dog={currentDog}/>
+              <DogItem key={currentDog.id} dog={currentDog} />
             ))}
             {dataRequest && <div className={styles.loader}>Loading...</div>}
             {dataFailed && (

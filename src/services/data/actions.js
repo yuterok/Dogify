@@ -6,6 +6,7 @@ export const FETCH_DATA_SUCCESS = "FETCH_DATA_SUCCESS";
 export const FETCH_DATA_FAILURE = "FETCH_DATA_FAILURE";
 export const SET_TOTAL_COUNT = "SET_TOTAL_COUNT";
 export const DELETE_DATA = "DELETE_DATA";
+export const EDIT_DATA = "EDIT_DATA";
 
 export const fetchDataRequest = () => ({
   type: FETCH_DATA_REQUEST,
@@ -29,6 +30,11 @@ export const fetchDataFailure = (error) => ({
 export const deleteData = (id) => ({
   type: DELETE_DATA,
   payload: id,
+});
+
+export const editData = (id, newName) => ({
+  type: EDIT_DATA,
+  payload: { id, newName },
 });
 
 export const fetchData = (currentPage) => {

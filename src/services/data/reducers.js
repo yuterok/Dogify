@@ -4,6 +4,7 @@ import {
   FETCH_DATA_FAILURE,
   SET_TOTAL_COUNT,
   DELETE_DATA,
+  EDIT_DATA,
 } from "./actions";
 
 const initialState = {
@@ -44,11 +45,29 @@ const dataReducer = (state = initialState, action) => {
       };
     }
     case DELETE_DATA: {
-        return {
-          ...state,
-          dogs: state.dogs.filter((item) => item.id !== action.payload),
-        };
-      }
+      return {
+        ...state,
+        dogs: state.dogs.filter((item) => item.id !== action.payload),
+      };
+    }
+    case EDIT_DATA: {
+      return {
+        ...state,
+        dogs: state.dogs.map((dog) =>
+          dog.id === action.payload.id
+            ? {
+                ...dog,
+                breeds: [
+                  {
+                    ...dog.breeds[0],
+                    name: action.payload.newName,
+                  },
+                ],
+              }
+            : dog
+        ),
+      };
+    }
     default: {
       return state;
     }
