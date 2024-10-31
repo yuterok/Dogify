@@ -2,6 +2,11 @@ import { useDispatch } from "react-redux";
 import { deleteData, editData } from "../../services/data/actions";
 import styles from "./dog-item.module.css";
 import { useState } from "react";
+import { IconButton, Input, Typography } from "@mui/material";
+import Card from "@mui/material/Card";
+import CardMedia from "@mui/material/CardMedia";
+import DeleteIcon from "@mui/icons-material/Delete";
+import EditIcon from "@mui/icons-material/Edit";
 
 export const DogItem = (dog) => {
   const dispatch = useDispatch();
@@ -21,30 +26,44 @@ export const DogItem = (dog) => {
   };
 
   return (
-    <div className={styles.dog_item}>
-      <button onClick={deleteDog}>Удалить</button>
-      <button onClick={editDog}>
-        {isEditing ? "Сохранить" : "Редактировать"}
-      </button>
+    <Card
+      elevation={0}
+      sx={{ p: 2, pt: 3, position: "relative", borderRadius: "15px" }}
+    >
+      <div className={styles.buttons}>
+        <IconButton onClick={editDog} sx={{ p: 0 }}>
+          <EditIcon />
+        </IconButton>
+        <IconButton onClick={deleteDog} sx={{ p: 0 }}>
+          <DeleteIcon />
+        </IconButton>
+      </div>
+
       {isEditing ? (
-        <input
+        <Input
           type="text"
           value={newName}
           onChange={(e) => setNewName(e.target.value)}
-          className={styles.input}
+          sx={{
+            fontSize: { xs: "1.25rem", sm: "1.3118rem", md: "1.4993rem" },
+            mb: 1,
+          }}
         />
       ) : (
-        <p className={styles.text}>{currentDog.breeds[0]?.name}</p>
+        <Typography sx={{ mb: 2 }} variant="h5">
+          {currentDog.breeds[0]?.name}
+        </Typography>
       )}
-      <img
-        className={styles.photo}
-        src={currentDog.url}
-        alt={currentDog.title}
+      <CardMedia
+        sx={{ height: 300, borderRadius: "15px" }}
+        image={currentDog.url}
       />
-      <p className={styles.text}>{currentDog.breeds[0]?.temperament}</p>
-      <p className={styles.text}>
-        Вес: {currentDog.breeds[0]?.weight.metric} кг
-      </p>
-    </div>
+      <Typography sx={{ mt: 2, mb: 1, lineHeight: 1.2 }}>
+        <b>Temperament:</b> {currentDog.breeds[0]?.temperament}
+      </Typography>
+      <Typography>
+        <b>Weight:</b> {currentDog.breeds[0]?.weight.metric} kg
+      </Typography>
+    </Card>
   );
 };
