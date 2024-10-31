@@ -1,6 +1,5 @@
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useState, useRef, FC } from "react";
 import styles from "./app.module.css";
-import { useDispatch, useSelector } from "react-redux";
 import { fetchData } from "../../services/data/actions";
 import { DogItem } from "../dog-item/dog-item";
 import {
@@ -12,18 +11,21 @@ import {
   Typography,
 } from "@mui/material";
 import { Preloader } from "../preloader/preloader";
+import { RootState } from "../../services/root-reducer";
+import { useAppDispatch, useAppSelector } from "../../services/store";
+import { IDog } from "../../utils/types";
 
-function App() {
-  const [sortField, setSortField] = useState("");
-  const currentPage = useRef(1);
-  const containerRef = useRef(null);
-  const dispatch = useDispatch();
-  const dogs = useSelector((state) => state.data.dogs);
-  const { dataRequest, dataFailed, totalCount } = useSelector(
-    (state) => state.data
+const App: FC = () => {
+  const [sortField, setSortField] = useState<string>("");
+  const currentPage = useRef<number>(1);
+  const containerRef = useRef<HTMLDivElement | null>(null);
+  const dispatch = useAppDispatch();
+  const dogs = useAppSelector((state: RootState) => state.data.dogs) as IDog[];
+  const { dataRequest, dataFailed, totalCount } = useAppSelector(
+    (state: RootState) => state.data
   );
 
-  const sortData = (data) => {
+  const sortData = (data: IDog[]): IDog[] => {
     const uniqueData = data.filter(
       (obj, idx, arr) => idx === arr.findIndex((t) => t.id === obj.id)
     );
@@ -44,6 +46,7 @@ function App() {
   const scrollHandler = () => {
     const container = containerRef.current;
     if (
+      container &&
       container.scrollHeight - (container.scrollTop + window.innerHeight) <
         100 &&
       dogs.length < totalCount &&
@@ -133,6 +136,6 @@ function App() {
       </Typography>
     </Box>
   );
-}
+};
 
 export default App;

@@ -1,26 +1,30 @@
-import { useDispatch } from "react-redux";
 import { deleteData, editData } from "../../services/data/actions";
 import styles from "./dog-item.module.css";
-import { useState } from "react";
+import { FC, useState } from "react";
 import { IconButton, Input, Typography } from "@mui/material";
 import Card from "@mui/material/Card";
 import CardMedia from "@mui/material/CardMedia";
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
+import { IDog } from "../../utils/types";
+import { useAppDispatch } from "../../services/store";
 
-export const DogItem = (dog) => {
-  const dispatch = useDispatch();
-  const currentDog = dog.dog;
+interface DogItemProps {
+  dog: IDog;
+}
+
+export const DogItem: FC<DogItemProps> = ({ dog }) => {
+  const dispatch = useAppDispatch();
 
   const [isEditing, setIsEditing] = useState(false);
-  const [newName, setNewName] = useState(currentDog.breeds[0]?.name);
+  const [newName, setNewName] = useState(dog.breeds[0]?.name);
 
   const deleteDog = () => {
-    dispatch(deleteData(currentDog.id));
+    dispatch(deleteData(dog.id));
   };
   const editDog = () => {
     if (isEditing) {
-      dispatch(editData(currentDog.id, newName));
+      dispatch(editData(dog.id, newName));
     }
     setIsEditing(!isEditing);
   };
@@ -51,18 +55,15 @@ export const DogItem = (dog) => {
         />
       ) : (
         <Typography sx={{ mb: 2 }} variant="h5">
-          {currentDog.breeds[0]?.name}
+          {dog.breeds[0]?.name}
         </Typography>
       )}
-      <CardMedia
-        sx={{ height: 300, borderRadius: "15px" }}
-        image={currentDog.url}
-      />
+      <CardMedia sx={{ height: 300, borderRadius: "15px" }} image={dog.url} />
       <Typography sx={{ mt: 2, mb: 1, lineHeight: 1.2 }}>
-        <b>Temperament:</b> {currentDog.breeds[0]?.temperament}
+        <b>Temperament:</b> {dog.breeds[0]?.temperament}
       </Typography>
       <Typography>
-        <b>Weight:</b> {currentDog.breeds[0]?.weight.metric} kg
+        <b>Weight:</b> {dog.breeds[0]?.weight.metric} kg
       </Typography>
     </Card>
   );

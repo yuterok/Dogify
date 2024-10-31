@@ -5,16 +5,25 @@ import {
   SET_TOTAL_COUNT,
   DELETE_DATA,
   EDIT_DATA,
+  DataActionTypes,
 } from "./actions";
+import { IDog } from "../../utils/types";
 
-const initialState = {
+interface DataState {
+  dogs: IDog[];
+  totalCount: number;
+  dataRequest: boolean;
+  dataFailed: boolean;
+}
+
+const initialState: DataState = {
   dogs: [],
   totalCount: 0,
   dataRequest: false,
   dataFailed: false,
 };
 
-const dataReducer = (state = initialState, action) => {
+const dataReducer = (state = initialState, action: DataActionTypes) => {
   switch (action.type) {
     case FETCH_DATA_REQUEST: {
       return {
