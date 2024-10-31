@@ -10,8 +10,13 @@ export const SET_TOTAL_COUNT = "SET_TOTAL_COUNT";
 export const DELETE_DATA = "DELETE_DATA";
 export const EDIT_DATA = "EDIT_DATA";
 
+export const DEFAULT_ACTION_TYPE = "DEFAULT_ACTION_TYPE";
+
 interface IFetchDataRequest {
   readonly type: typeof FETCH_DATA_REQUEST;
+}
+interface IDefaultAction {
+  readonly type: typeof DEFAULT_ACTION_TYPE;
 }
 
 interface IFetchDataSuccess {
@@ -44,7 +49,8 @@ export type DataActionTypes =
   | IFetchDataFailure
   | ISetTotalCount
   | IDeleteData
-  | IEditData;
+  | IEditData
+  | IDefaultAction;
 
 export const fetchDataRequest = (): IFetchDataRequest => ({
   type: FETCH_DATA_REQUEST,

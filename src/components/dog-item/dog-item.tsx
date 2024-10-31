@@ -54,7 +54,7 @@ export const DogItem: FC<DogItemProps> = ({ dog }) => {
           }}
         />
       ) : (
-        <Typography sx={{ mb: 2 }} variant="h5">
+        <Typography sx={{ mb: 2 }} variant="h5" data-testid="dog-name">
           {dog.breeds[0]?.name}
         </Typography>
       )}

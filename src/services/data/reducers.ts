@@ -16,7 +16,7 @@ interface DataState {
   dataFailed: boolean;
 }
 
-const initialState: DataState = {
+export const initialState: DataState = {
   dogs: [],
   totalCount: 0,
   dataRequest: false,

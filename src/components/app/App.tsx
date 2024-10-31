@@ -107,12 +107,14 @@ const App: FC = () => {
           >
             {sortedDogs.length > 0 && (
               <FormControl size="small">
-                <InputLabel>Sort</InputLabel>
+                <InputLabel id="Sort" htmlFor="Sort">Sort</InputLabel>
                 <Select
                   label="Sort"
                   onChange={(e) => setSortField(e.target.value)}
                   sx={{ mb: 2, borderRadius: "15px" }}
                   value={sortField}
+                  id="Sort"
+                  labelId="Sort"
                 >
                   <MenuItem value="none">No sorting</MenuItem>
                   <MenuItem value="name">By name</MenuItem>

@@ -1,7 +1,7 @@
 import styles from "./preloader.module.css";
 export const Preloader = () => {
   return (
-    <div className={styles.container}>
+    <div className={styles.container} data-testid="preloader">
       <svg
         height="40px"
         width="70px"
