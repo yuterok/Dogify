@@ -28,14 +28,13 @@ export const DogItem: FC<DogItemProps> = ({ dog }) => {
     }
     setIsEditing(!isEditing);
   };
-
   return (
     <Card
       elevation={0}
       sx={{ p: 2, pt: 3, position: "relative", borderRadius: "15px" }}
     >
       <div className={styles.buttons}>
-        <IconButton onClick={editDog} sx={{ p: 0 }}>
+        <IconButton onClick={editDog} sx={{}}>
           <EditIcon />
         </IconButton>
         <IconButton onClick={deleteDog} sx={{ p: 0 }}>
@@ -48,6 +47,11 @@ export const DogItem: FC<DogItemProps> = ({ dog }) => {
           type="text"
           value={newName}
           onChange={(e) => setNewName(e.target.value)}
+          onKeyDown={(e) => {
+            if (e.key === "Enter") {
+              editDog();
+            }
+          }}
           sx={{
             fontSize: { xs: "1.25rem", sm: "1.3118rem", md: "1.4993rem" },
             mb: 1,

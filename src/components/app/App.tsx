@@ -107,7 +107,9 @@ const App: FC = () => {
           >
             {sortedDogs.length > 0 && (
               <FormControl size="small">
-                <InputLabel id="Sort" htmlFor="Sort">Sort</InputLabel>
+                <InputLabel id="Sort" htmlFor="Sort">
+                  Sort
+                </InputLabel>
                 <Select
                   label="Sort"
                   onChange={(e) => setSortField(e.target.value)}
