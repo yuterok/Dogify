@@ -10,6 +10,7 @@ import { createTheme, responsiveFontSizes } from "@mui/material/styles";
 import "@fontsource/poppins/400.css";
 import "@fontsource/poppins/600.css";
 import "@fontsource/poppins/700.css";
+import React from "react";
 
 let theme = createTheme({
   palette: {
@@ -42,13 +43,13 @@ const root = ReactDOM.createRoot(
   document.getElementById("root") as HTMLElement
 );
 root.render(
-  // <React.StrictMode>
+  <React.StrictMode>
   <ThemeProvider theme={theme}>
     <Provider store={store}>
       <App />
     </Provider>
   </ThemeProvider>
-  // </React.StrictMode>
+  </React.StrictMode>
 );
 
 // If you want to start measuring performance in your app, pass a function
