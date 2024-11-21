@@ -10,7 +10,11 @@ import { IDog } from "../../utils/types";
 import { useAppDispatch } from "../../services/store";
 import { ModalDog } from "../modal/modal";
 
-export const DogItem = ({ dog }) => {
+interface DogItemProps {
+  dog: IDog;
+}
+
+export const DogItem: FC<DogItemProps> = ({ dog }) => {
   const dispatch = useAppDispatch();
 
   const [isModal, setModal] = useState(false);
