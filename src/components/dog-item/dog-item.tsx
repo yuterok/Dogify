@@ -8,6 +8,7 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
 import { IDog } from "../../utils/types";
 import { useAppDispatch } from "../../services/store";
+import { ModalDog } from "../modal/modal";
 
 interface DogItemProps {
   dog: IDog;
@@ -16,9 +17,11 @@ interface DogItemProps {
 export const DogItem: FC<DogItemProps> = ({ dog }) => {
   const dispatch = useAppDispatch();
 
+  const [isModal, setModal] = useState(false);
+
   const [isEditing, setIsEditing] = useState(false);
   const [newName, setNewName] = useState(dog.breeds[0]?.name);
-
+  const handleOpen = () => setModal(true);
   const deleteDog = () => {
     dispatch(deleteData(dog.id));
   };
@@ -41,7 +44,6 @@ export const DogItem: FC<DogItemProps> = ({ dog }) => {
           <DeleteIcon />
         </IconButton>
       </div>
-
       {isEditing ? (
         <Input
           type="text"
@@ -62,13 +64,22 @@ export const DogItem: FC<DogItemProps> = ({ dog }) => {
           {dog.breeds[0]?.name}
         </Typography>
       )}
-      <CardMedia sx={{ height: 300, borderRadius: "15px" }} image={dog.url} />
+      <CardMedia
+        onClick={handleOpen}
+        sx={{
+          height: 300,
+          borderRadius: "15px",
+          "&:hover": { cursor: "pointer" },
+        }}
+        image={dog.url}
+      />
       <Typography sx={{ mt: 2, mb: 1, lineHeight: 1.2 }}>
         <b>Temperament:</b> {dog.breeds[0]?.temperament}
       </Typography>
       <Typography>
         <b>Weight:</b> {dog.breeds[0]?.weight.metric} kg
       </Typography>
+      {isModal && <ModalDog dog={dog} setModal={setModal} />}
     </Card>
   );
 };

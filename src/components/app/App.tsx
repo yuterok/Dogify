@@ -2,6 +2,7 @@ import { useEffect, useState, useRef, FC } from "react";
 import styles from "./app.module.css";
 import { fetchData } from "../../services/data/actions";
 import { DogItem } from "../dog-item/dog-item";
+
 import {
   Box,
   FormControl,
@@ -17,6 +18,7 @@ import { IDog } from "../../utils/types";
 
 const App: FC = () => {
   const [sortField, setSortField] = useState<string>("");
+
   const currentPage = useRef<number>(1);
   const containerRef = useRef<HTMLDivElement | null>(null);
   const dispatch = useAppDispatch();
@@ -96,6 +98,7 @@ const App: FC = () => {
       >
         Choose your dog
       </Typography>
+
       {sortedDogs && (
         <div className={styles.outer}>
           <Box

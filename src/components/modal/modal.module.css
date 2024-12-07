@@ -1,0 +1,83 @@
+.container {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+    width: auto;
+}
+
+.container:focus-visible {
+    outline: none;
+}
+
+.title {
+    text-wrap: nowrap;
+    text-align: center;
+    color: pink;
+    text-shadow: 2px 0 red, -2px 0 red, 0 2px red, 0 -2px red,
+        1px 1px red, -1px -1px red, 1px -1px red, -1px 1px red;
+}
+
+.name {
+    text-align: center;
+    color: pink;
+    text-shadow: 2px 0 red, -2px 0 red, 0 2px red, 0 -2px red,
+        1px 1px red, -1px -1px red, 1px -1px red, -1px 1px red;
+    text-wrap: balance;
+}
+
+.image {
+    width: 56vh;
+    height: 56vh;
+    background-size: cover;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-position: center;
+}
+
+.frame {
+    width: 58vh;
+    height: 58vh;
+    border-radius: 30px;
+    box-shadow: 1px 0px 60px red;
+}
+
+.background {
+    background-image: url("../../img/background-gif.webp");
+    background-size: 20vh;
+    background-position: bottom;
+    animation: appear 2s ease-in-out;
+}
+
+.confetti {
+    position: absolute;
+    top: 0;
+}
+
+@keyframes appear {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+@media (max-width: 600px) {
+    .frame {
+        width: 90vw;
+        height: 90vw;
+    }
+
+    .image {
+        width: 88vw;
+        height: 88vw;
+    }
+}
